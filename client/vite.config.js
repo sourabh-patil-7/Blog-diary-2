@@ -7,7 +7,8 @@ export default defineConfig({
     proxy: {
       '/api': {
         target: 'https://blog-diary-api.onrender.com/',
-        secure: false,
+        changeOrigin: true,
+        secure: true, //becuase using https
       },
     },
   },
