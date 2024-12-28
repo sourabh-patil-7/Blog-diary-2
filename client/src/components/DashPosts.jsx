@@ -14,7 +14,10 @@ export default function DashPosts() {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/post/getposts?userId=${currentUser._id}`);
+        const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/post/getposts?userId=${currentUser._id}`, {
+          method: 'GET',
+          credentials: 'include',
+        });
         const data = await res.json();
         if (res.ok) {
           setUserPosts(data.posts);
@@ -35,7 +38,10 @@ export default function DashPosts() {
     const startIndex = userPosts.length;
     try {
       const res = await fetch(
-        `${import.meta.env.VITE_API_BASE_URL}/api/post/getposts?userId=${currentUser._id}&startIndex=${startIndex}`
+        `${import.meta.env.VITE_API_BASE_URL}/api/post/getposts?userId=${currentUser._id}&startIndex=${startIndex}`, {
+        method: 'GET',
+        credentials: 'include',
+      }
       );
       const data = await res.json();
       if (res.ok) {
@@ -56,6 +62,7 @@ export default function DashPosts() {
         `${import.meta.env.VITE_API_BASE_URL}/api/post/deletepost/${postIdToDelete}/${currentUser._id}`,
         {
           method: 'DELETE',
+          credentials: 'include',
         }
       );
       const data = await res.json();
@@ -87,7 +94,7 @@ export default function DashPosts() {
               </Table.HeadCell>
             </Table.Head>
             {userPosts.map((post) => (
-              <Table.Body className='divide-y'>
+              <Table.Body className='divide-y' key={post._id}>
                 <Table.Row className='bg-white dark:border-gray-700 dark:bg-gray-800'>
                   <Table.Cell>
                     {new Date(post.updatedAt).toLocaleDateString()}

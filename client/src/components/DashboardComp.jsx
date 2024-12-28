@@ -23,7 +23,10 @@ export default function DashboardComp() {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/user/getusers?limit=5`);
+        const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/user/getusers?limit=5`, {
+          method: 'GET',
+          credentials: 'include',
+        });
         const data = await res.json();
         if (res.ok) {
           setUsers(data.users);
@@ -49,7 +52,10 @@ export default function DashboardComp() {
     };
     const fetchComments = async () => {
       try {
-        const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/comment/getcomments?limit=5`);
+        const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/comment/getcomments?limit=5`, {
+          method: 'GET',
+          credentials: 'include',
+        });
         const data = await res.json();
         if (res.ok) {
           setComments(data.comments);
@@ -167,7 +173,7 @@ export default function DashboardComp() {
                 <Table.Body key={comment._id} className='divide-y'>
                   <Table.Row className='bg-white dark:border-gray-700 dark:bg-gray-800'>
                     <Table.Cell className='w-96'>
-                        <p className='line-clamp-2'>{comment.content}</p>
+                      <p className='line-clamp-2'>{comment.content}</p>
                     </Table.Cell>
                     <Table.Cell>{comment.numberOfLikes}</Table.Cell>
                   </Table.Row>

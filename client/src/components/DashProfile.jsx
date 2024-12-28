@@ -1,7 +1,7 @@
 import { Alert, Button, Modal, ModalBody, TextInput } from 'flowbite-react';
 import { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { 
+import {
   getDownloadURL,
   getStorage,
   ref,
@@ -116,6 +116,7 @@ export default function DashProfile() {
         headers: {
           'Content-Type': 'application/json',
         },
+        credentials: 'include',
         body: JSON.stringify(formData),
       });
       const data = await res.json();
@@ -137,6 +138,7 @@ export default function DashProfile() {
       dispatch(deleteUserStart());
       const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/user/delete/${currentUser._id}`, {
         method: 'DELETE',
+        credentials: 'include',
       });
       const data = await res.json();
       if (!res.ok) {
@@ -153,6 +155,7 @@ export default function DashProfile() {
     try {
       const res = await fetch('${import.meta.env.VITE_API_BASE_URL}/api/user/signout', {
         method: 'POST',
+        credentials: 'include',
       });
       const data = await res.json();
       if (!res.ok) {
@@ -193,9 +196,8 @@ export default function DashProfile() {
                   left: 0,
                 },
                 path: {
-                  stroke: `rgba(62, 152, 199, ${
-                    imageFileUploadProgress / 100
-                  })`,
+                  stroke: `rgba(62, 152, 199, ${imageFileUploadProgress / 100
+                    })`,
                 },
               }}
             />
@@ -203,11 +205,10 @@ export default function DashProfile() {
           <img
             src={imageFileUrl || currentUser.profilePicture}
             alt='user'
-            className={`rounded-full w-full h-full object-cover border-8 border-[lightgray] ${
-              imageFileUploadProgress &&
+            className={`rounded-full w-full h-full object-cover border-8 border-[lightgray] ${imageFileUploadProgress &&
               imageFileUploadProgress < 100 &&
               'opacity-60'
-            }`}
+              }`}
           />
         </div>
         {imageFileUploadError && (
@@ -233,25 +234,25 @@ export default function DashProfile() {
           placeholder='password'
           onChange={handleChange}
         />
-        <Button 
-        type='submit' 
-        gradientDuoTone='purpleToBlue' 
-        outline 
-        disabled={loading || imageFileUploading}>
-          
+        <Button
+          type='submit'
+          gradientDuoTone='purpleToBlue'
+          outline
+          disabled={loading || imageFileUploading}>
+
           {loading ? 'Loading...' : 'Update'}
         </Button>
-        { currentUser.isAdmin && (
+        {currentUser.isAdmin && (
           <Link to={'/create-post'}>
-            <Button 
+            <Button
               type='button'
               gradientDuoTone='purpleToPink'
               className='w-full'
-              >
-                Create a post
-              </Button>
-              </Link>
-           )
+            >
+              Create a post
+            </Button>
+          </Link>
+        )
         }
       </form>
       <div className='text-red-500 flex justify-between mt-5'>

@@ -28,6 +28,7 @@ export default function SignIn() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
+        credentials: 'include',
       });
       const data = await res.json();
       if (data.success === false) {
@@ -54,7 +55,7 @@ export default function SignIn() {
             Diary
           </Link>
           <p className='text-sm mt-5'>
-          Tap into intuitive, flexible tools that put writers, bloggers, and
+            Tap into intuitive, flexible tools that put writers, bloggers, and
             creators first.
           </p>
         </div>

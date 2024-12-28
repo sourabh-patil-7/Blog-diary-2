@@ -13,7 +13,10 @@ export default function Comment({ comment, onLike, onEdit, onDelete }) {
   useEffect(() => {
     const getUser = async () => {
       try {
-        const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/user/${comment.userId}`);
+        const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/user/${comment.userId}`, {
+          method: 'GET',
+          credentials: 'include',
+        });
         const data = await res.json();
         if (res.ok) {
           setUser(data);
@@ -40,6 +43,7 @@ export default function Comment({ comment, onLike, onEdit, onDelete }) {
         body: JSON.stringify({
           content: editedContent,
         }),
+        credentials: 'include',
       });
       if (res.ok) {
         setIsEditing(false);
@@ -101,19 +105,18 @@ export default function Comment({ comment, onLike, onEdit, onDelete }) {
               <button
                 type='button'
                 onClick={() => onLike(comment._id)}
-                className={`text-gray-400 hover:text-blue-500 ${
-                  currentUser &&
+                className={`text-gray-400 hover:text-blue-500 ${currentUser &&
                   comment.likes.includes(currentUser._id) &&
                   '!text-blue-500'
-                }`}
+                  }`}
               >
                 <FaThumbsUp className='text-sm' />
               </button>
               <p className='text-gray-400'>
                 {comment.numberOfLikes > 0 &&
                   comment.numberOfLikes +
-                    ' ' +
-                    (comment.numberOfLikes === 1 ? 'like' : 'likes')}
+                  ' ' +
+                  (comment.numberOfLikes === 1 ? 'like' : 'likes')}
               </p>
               {currentUser &&
                 (currentUser._id === comment.userId || currentUser.isAdmin) && (
