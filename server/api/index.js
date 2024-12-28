@@ -11,6 +11,8 @@ import cors from 'cors';
 
 dotenv.config();
 
+app.options('*', cors());
+
 mongoose
   .connect(process.env.MONGO)
   .then(() => {
